@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "project"
+version = "0.1.0"
+description = ""
+authors = ["Mikhail Mironov <mihail.borokoko@gmail.com>", "Maxim Shibanov"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+notebook = "^7.3.3"
+requests = "^2.32.3"
+playwright = "^1.51.0"
+selenium = "^4.30.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
