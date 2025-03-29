@@ -6,12 +6,13 @@ authors = ["Mikhail Mironov <mihail.borokoko@gmail.com>", "Maxim Shibanov"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "3.11.7"
 notebook = "^7.3.3"
 requests = "^2.32.3"
 playwright = "^1.51.0"
 selenium = "^4.30.0"
 tqdm = "^4.67.1"
+pyinstaller = "^6.12.0"
 
 
 [build-system]

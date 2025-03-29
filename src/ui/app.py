@@ -9,6 +9,7 @@ from sniffer_class.downloader import download_ui
 class VideoSnifferApp:
     def __init__(self, root: tk.Tk):
         self.root: tk.Tk = root
+        self.root.iconbitmap("movie.ico")
         self.root.title("VideoSniffer")
         self.root.geometry("400x350")
         self.selected_folder = Path()
