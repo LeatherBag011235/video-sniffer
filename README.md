@@ -16,19 +16,18 @@ This is a project for ICEF python course. Here we attempted to create an API tha
   <li>After watching Ads, choose quality you want in the mediaplayer and dubbing and close the browser. This will start the download</li>
 </ol>
 
-<p align="center">
-  <img src="src/imgs/screen_choose_player.png" alt="Loading" width="500">
-</p>
+<h4>Choose player. Make sure to switch to 3rd player</h4>
+<img src="src/imgs/screen_choose_player.png" alt="Loading" width="500">
 
-<p align="center">
-  <img src="src/imgs/screen_choose_quality" alt="Loading" width="500">
-</p>
+<h4>Choose quality and close browser window</h4>
+<img src="src/imgs/screen_choose_quality.png" alt="Loading" width="500">
 
-<p align="center">
-  <img src="src/imgs/screen_loading.png" alt="Loading" width="500">
-</p>
 
-<p align="center">
-  <img src="src/imgs/screen_success.png" alt="Success" width="500">
-</p>
+<h4>Then download will start</h4>
+<img src="src/imgs/screen_loading.png" alt="Loading" width="500">
+
+
+<h4>Enjoy</h4>
+<img src="src/imgs/screen_success.png" alt="Success" width="500">
+
 
