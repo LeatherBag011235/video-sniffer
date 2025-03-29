@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import logging
 import multiprocessing
+import tkinter
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
 from os import PathLike
 from pathlib import Path
-from typing import Literal, Dict
+from tkinter import ttk
+from typing import Literal, Dict, Optional, Any, List
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -115,7 +117,7 @@ class VideoSegmentGluer:
                     )
         return False
 
-    def download_all_segments(self) -> list[Path]:
+    def download_all_segments(self, meta: Optional[Dict[str, Any]]) -> List[Path]:
         """Download all segments in parallel using optimized connection pool"""
         sorted_links = self.sort_links()
 
@@ -128,12 +130,19 @@ class VideoSegmentGluer:
 
             # Download with retry for all segments
             download_func = partial(self._download_segment_with_retry)
+            results = []
 
-            results = list(tqdm(
-                executor.map(download_func, sorted_links.values(), segment_files),
-                total=len(segment_files),
-                desc="Downloading segments"
-            ))
+            for i, result in tqdm(
+                    enumerate(executor.map(download_func, sorted_links.values(), segment_files)),
+                    total=len(segment_files)
+            ):
+                if meta is not None:
+                    progress: ttk.Progressbar = meta.get("progress")
+                    progress["value"] = (i + 1) / len(segment_files) * 100
+                    root: tkinter.Tk = meta.get("root")
+                    root.update_idletasks()
+
+                results.append(result)
 
         successful_files = [f for f, success in zip(segment_files, results) if success]
         success_count = len(successful_files)
@@ -174,26 +183,16 @@ class VideoSegmentGluer:
             self,
             output_filename: str = 'combined_video.ts',
             cleanup: bool = True,
-            output_format: Literal['ts', 'mp4'] = 'ts'
+            output_format: Literal['ts', 'mp4'] = 'ts',
+            meta: Optional[Dict[str, Any]] = None
     ) -> Path:
-        """
-        Complete processing pipeline with optimized connection pooling.
-        
-        Args:
-            output_filename: Name for the output file
-            cleanup: Whether to remove temporary files
-            output_format: Output file format ('ts' or 'mp4')
-            
-        Returns:
-            Path to the final combined video file
-        """
         if output_format not in ('ts', 'mp4'):
             raise ValueError("output_format must be either 'ts' or 'mp4'")
 
         if not output_filename.endswith(output_format):
             output_filename = f"{output_filename.rsplit('.', 1)[0]}.{output_format}"
 
-        segment_files = self.download_all_segments()
+        segment_files = self.download_all_segments(meta=meta)
 
         if not segment_files:
             raise RuntimeError("No segments were successfully downloaded")
