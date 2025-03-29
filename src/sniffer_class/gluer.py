@@ -10,6 +10,7 @@ from typing import Literal, Dict
 
 import requests
 from requests.adapters import HTTPAdapter
+from tqdm import tqdm
 from urllib3.util.retry import Retry
 
 
@@ -121,16 +122,17 @@ class VideoSegmentGluer:
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             # Create all target filenames first
             segment_files = [
-                self.temp_dir / f'segment_{idx.zfill(4)}.ts'
+                self.temp_dir / f'segment_{str(idx).zfill(4)}.ts'
                 for idx in sorted_links.keys()
             ]
 
             # Download with retry for all segments
             download_func = partial(self._download_segment_with_retry)
-            results = list(executor.map(
-                download_func,
-                sorted_links.values(),
-                segment_files
+
+            results = list(tqdm(
+                executor.map(download_func, sorted_links.values(), segment_files),
+                total=len(segment_files),
+                desc="Downloading segments"
             ))
 
         successful_files = [f for f, success in zip(segment_files, results) if success]
@@ -154,7 +156,7 @@ class VideoSegmentGluer:
         logging.info(f"Combining %s segments into %s", len(segment_files), output_path)
 
         with output_path.open('wb') as outfile:
-            for segment_file in sorted(segment_files):
+            for segment_file in tqdm(sorted(segment_files), desc="Combining ts files into one video"):
                 with segment_file.open('rb') as infile:
                     outfile.write(infile.read())
 
