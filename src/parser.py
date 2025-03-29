@@ -11,6 +11,8 @@ async def click_player3_play_button(page_url):
             # Human-like browser fingerprints
             channel="chrome",  # Uses actual Chrome browser
             args=[
+                "--disable-blink-features=AutomationControlled",
+                "--start-maximized"
             ]
         )
         
