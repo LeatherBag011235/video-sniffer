@@ -341,7 +341,7 @@ def download_ui(save_dir: Path, output_filename: str, meta: Dict[str, Any]) -> N
 class VideoSnifferApp:
     def __init__(self, root: tk.Tk):
         self.root: tk.Tk = root
-        self.root.iconbitmap("movie.ico")
+        self.root.iconbitmap(r"D:\HSE\Introduction_Python\project\src\movie.ico")
         self.root.title("VideoSniffer")
         self.root.geometry("400x350")
         self.selected_folder = Path()
