@@ -17,6 +17,14 @@ This is a project for ICEF python course. Here we attempted to create an API tha
 </ol>
 
 <p align="center">
+  <img src="src/imgs/screen_choose_player.png" alt="Loading" width="500">
+</p>
+
+<p align="center">
+  <img src="src/imgs/screen_choose_quality" alt="Loading" width="500">
+</p>
+
+<p align="center">
   <img src="src/imgs/screen_loading.png" alt="Loading" width="500">
 </p>
 
